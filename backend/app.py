@@ -6,8 +6,10 @@ from routes import register_routes
 from config import Config
 from flask_cors import CORS
 import os
+import pymysql
 from flask import Flask, send_from_directory
 
+pymysql.install_as_MySQLdb()
 app = Flask(__name__, static_folder="static")
 app.config.from_object(Config)
 CORS(app, origins=os.environ.get("CORS_ORIGINS", "*"))  # Izinkan origin dari variabel lingkungan
