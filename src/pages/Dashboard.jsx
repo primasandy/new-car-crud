@@ -39,22 +39,23 @@ const Dashboard = () => {
 
   // Add new car
   const handleAddCar = async (e) => {
-    e.preventDefault();
-    try {
-      const token = localStorage.getItem("token");
-      const response = await axios.post("/api/cars", formData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      setCars([...cars, response.data]);
-      setFormData({ id: "", brand: "", model: "", year: "" });
-      alert("Car added successfully!");
-    } catch (error) {
-      console.error("Error adding car:", error);
-      alert("Failed to add car.");
-    }
-  };
+  e.preventDefault();
+  try {
+    const token = localStorage.getItem("token");
+    const { id, ...payload } = formData; // Hilangkan id dari data yang dikirim
+    const response = await axios.post("/api/cars", payload, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    setCars([...cars, response.data]);
+    setFormData({ id: "", brand: "", model: "", year: "" });
+    alert("Car added successfully!");
+  } catch (error) {
+    console.error("Error adding car:", error);
+    alert("Failed to add car.");
+  }
+};
 
   // Update car
   const handleUpdateCar = async (id) => {
@@ -96,7 +97,7 @@ const Dashboard = () => {
   // Handle logout
   const handleLogout = () => {
     localStorage.removeItem("token");
-    navigate("/login"); // Redirect to login page after logout
+    navigate("/"); // Redirect to login page after logout
   };
 
   return (
