@@ -1,17 +1,19 @@
-# Menggunakan image Python 3.10 sebagai dasar
+# Menggunakan image Python 3.10
 FROM python:3.10-slim
 
-# Mengatur direktori kerja di dalam container
+# Instal Rust
+RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+
+# Set PATH untuk Rust
+ENV PATH="/root/.cargo/bin:${PATH}"
+
+# Menyalin dan menginstal dependencies
 WORKDIR /app
-
-# Menyalin file requirements.txt ke dalam container
 COPY requirements.txt .
-
-# Menginstal dependencies yang ada di requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Menyalin seluruh file aplikasi ke dalam container
+# Menyalin seluruh kode aplikasi
 COPY . .
 
-# Mengatur perintah untuk menjalankan aplikasi Anda
+# Menjalankan aplikasi
 CMD ["python", "app.py"]
