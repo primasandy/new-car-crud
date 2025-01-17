@@ -5,15 +5,12 @@
       "src": "frontend-gui/package.json",
       "use": "@vercel/static-build",
       "config": {
-        "distDir": "frontend-gui/dist"
+        "distDir": "dist"
       }
     },
     {
       "src": "backend/app.py",
-      "use": "@vercel/python",
-      "config": {
-        "buildCommand": "curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y && source $HOME/.cargo/env && pip install -r requirements.txt"
-      }
+      "use": "@vercel/python"
     }
   ],
   "routes": [
@@ -23,7 +20,7 @@
     },
     {
       "src": "/(.*)",
-      "dest": "/frontend-gui/dist/$1"
+      "dest": "index.html"
     }
   ],
   "env": {
